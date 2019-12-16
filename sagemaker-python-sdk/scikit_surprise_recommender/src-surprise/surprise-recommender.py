@@ -19,7 +19,6 @@ from typing import List
 # External Dependencies:
 import numpy as np
 import pandas as pd
-subprocess.call([sys.executable, "-m", "pip", "install", "surprise"])
 import surprise
 
 # For type annotation purposes (for your info) only:
@@ -88,7 +87,7 @@ def input_fn(raw, content_type: str) -> List[InferenceRequest]:
     if content_type == "text/csv":
         stream = StringIO(raw)
         reader = csv.reader(stream)
-        return [InferenceRequest(*datum) for datum in reader]
+        return [InferenceRequest(uid=int(datum[0]), iid=int(datum[1])) for datum in reader]
     elif content_type == "application/json":
         data = json.loads(raw)
         if type(data) == dict:
